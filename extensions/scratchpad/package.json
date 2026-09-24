@@ -1,7 +1,7 @@
 {
   "name": "js-scratchpad",
-  "displayName": "JS/TS Scratchpad (RunJS Live Runner)",
-  "description": "Playground interativo em tempo real para JavaScript, TypeScript, Node.js e React no estilo RunJS.",
+  "displayName": "JS Studio Scratchpad",
+  "description": "Scratchpad local para JavaScript e TypeScript, sem IA, integrado ao JS Studio.",
   "version": "1.0.0",
   "publisher": "js-studio",
   "license": "MIT",
@@ -21,14 +21,14 @@
     "commands": [
       {
         "command": "scratchpad.open",
-        "title": "Abrir JS/TS Scratchpad (RunJS)",
-        "category": "Scratchpad",
+        "title": "Abrir Scratchpad JS/TS",
+        "category": "JS Studio",
         "icon": "$(play)"
       },
       {
         "command": "scratchpad.new",
-        "title": "Novo Scratchpad (Aba Limpa)",
-        "category": "Scratchpad",
+        "title": "Novo Scratchpad JS/TS",
+        "category": "JS Studio",
         "icon": "$(add)"
       }
     ],
@@ -42,10 +42,12 @@
       ],
       "commandPalette": [
         {
-          "command": "scratchpad.open"
+          "command": "scratchpad.open",
+          "when": "true"
         },
         {
-          "command": "scratchpad.new"
+          "command": "scratchpad.new",
+          "when": "true"
         }
       ]
     },
@@ -56,5 +58,8 @@
         "mac": "cmd+alt+n"
       }
     ]
-  }
+  },
+  "extensionKind": [
+    "workspace"
+  ]
 }
