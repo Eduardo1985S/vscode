@@ -5,6 +5,7 @@
 
 // Increase max listeners for event emitters
 import { EventEmitter } from 'events';
+import fs from 'fs';
 EventEmitter.defaultMaxListeners = 100;
 
 import gulp from 'gulp';
@@ -74,7 +75,7 @@ const compilations = [
 
 	'.vscode/extensions/vscode-selfhost-test-provider/tsconfig.json',
 	'.vscode/extensions/vscode-selfhost-import-aid/tsconfig.json',
-];
+].filter(tsconfigFile => fs.existsSync(path.join(root, tsconfigFile)));
 
 const getBaseUrl = (out: string) => `https://main.vscode-cdn.net/sourcemaps/${commit}/${out}`;
 

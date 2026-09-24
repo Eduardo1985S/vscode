@@ -3,7 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>JS Studio • Scratchpad (RunJS OSS)</title>
+  <title>JS Studio • Scratchpad</title>
+  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; img-src {{CSP_SOURCE}} data:; style-src {{CSP_SOURCE}} 'unsafe-inline'; script-src {{CSP_SOURCE}};">
   <link rel="stylesheet" href="{{CSS_URI}}">
 </head>
 <body class="theme-dracula">
@@ -11,8 +12,8 @@
     <!-- Top Header & Tabs Bar -->
     <header class="top-header">
       <div class="branding">
-        <img src="./logo.png" class="app-logo-img" alt="JS Studio">
-        <span class="logo-text">JS Studio <span class="badge-free">OSS</span></span>
+        <img src="{{LOGO_URI}}" class="app-logo-img" alt="JS Studio">
+        <span class="logo-text">JS Studio <span class="badge-free">JS/TS</span></span>
       </div>
 
       <!-- Tabs Bar -->
@@ -24,8 +25,8 @@
         <div class="env-selector">
           <label for="envMode">Modo:</label>
           <select id="envMode" class="select-env">
-            <option value="typescript">TypeScript</option>
             <option value="javascript">JavaScript / Node</option>
+            <option value="typescript">TypeScript</option>
           </select>
         </div>
 
@@ -47,11 +48,10 @@
             <span>📄 Exemplos</span> ▾
           </button>
           <div class="dropdown-content" id="templatesMenu">
-            <a href="#" data-template="runjs-welcome">🌟 Bem-vindo ao RunJS (Demo)</a>
+            <a href="#" data-template="runjs-welcome">🌟 Bem-vindo ao JS Studio</a>
             <a href="#" data-template="typescript-types">📘 TypeScript & Interfaces</a>
             <a href="#" data-template="node-system">⚙️ Node.js (fs, crypto, os)</a>
             <a href="#" data-template="react-preview">⚛️ React Components & Hooks</a>
-            <a href="#" data-template="vue-reactivity">🟢 Vue 3 Reatividade (ref/computed)</a>
             <a href="#" data-template="async-fetch">🌐 Async / Await & Fetch API</a>
           </div>
         </div>
@@ -128,7 +128,7 @@
       <div class="status-right">
         <span class="status-tag tag-dracula">Dracula Theme</span>
         <span class="status-tag tag-success">✓ 100% Gratuito & Ilimitado</span>
-        <span class="status-item">Sem IA • Sem Licenças • Sem Bloat</span>
+        <span class="status-item">Sem IA • JavaScript • TypeScript</span>
       </div>
     </footer>
   </div>

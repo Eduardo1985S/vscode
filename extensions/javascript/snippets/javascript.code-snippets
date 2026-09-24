@@ -262,5 +262,68 @@
 			"}"
 		],
 		"description": "Async Function Expression"
+	},
+	"JS Studio: console.log": {
+		"prefix": "clg",
+		"body": [
+			"console.log(${1:value});",
+			"$0"
+		],
+		"description": "JS Studio: console.log rápido"
+	},
+	"JS Studio: Arrow Function": {
+		"prefix": "afn",
+		"body": [
+			"const ${1:name} = (${2:params}) => {",
+			"\t$0",
+			"};"
+		],
+		"description": "JS Studio: cria uma arrow function"
+	},
+	"JS Studio: Fetch JSON": {
+		"prefix": "fetchjson",
+		"body": [
+			"const response = await fetch('${1:https://api.exemplo.com}');",
+			"const data = await response.json();",
+			"console.log(data);",
+			"$0"
+		],
+		"description": "JS Studio: fetch com conversão para JSON"
+	},
+	"JS Studio: map": {
+		"prefix": "maparr",
+		"body": [
+			"const ${1:resultado} = ${2:itens}.map(${3:item} => ${4:item});",
+			"$0"
+		],
+		"description": "JS Studio: transforma um array com map"
+	},
+	"JS Studio: filter": {
+		"prefix": "filterarr",
+		"body": [
+			"const ${1:filtrados} = ${2:itens}.filter(${3:item} => ${4:condicao});",
+			"$0"
+		],
+		"description": "JS Studio: filtra um array"
+	},
+	"JS Studio: reduce": {
+		"prefix": "reducearr",
+		"body": [
+			"const ${1:total} = ${2:itens}.reduce((${3:acc}, ${4:item}) => ${5:acc + item}, ${6:0});",
+			"$0"
+		],
+		"description": "JS Studio: reduz um array a um valor"
+	},
+	"JS Studio: Try Catch": {
+		"prefix": "tryjs",
+		"body": [
+			"try {",
+			"\t$1",
+			"} catch (error) {",
+			"\tconsole.error(error);",
+			"}",
+			"$0"
+		],
+		"description": "JS Studio: bloco try/catch"
 	}
 }
