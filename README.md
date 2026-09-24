@@ -65,7 +65,7 @@ No Windows, use os scripts de desenvolvimento correspondentes do Code - OSS.
 
 O workflow `.github/workflows/build-installer.yml` gera um instalador Windows x64.
 
-Ele pode ser executado manualmente no GitHub Actions e também é validado em Pull Requests para a branch `main`.
+Ele pode ser executado manualmente no GitHub Actions.
 
 Tags no formato `v*` também criam uma release com o instalador gerado.
 
