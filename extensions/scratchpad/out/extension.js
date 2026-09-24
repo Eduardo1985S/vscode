@@ -147,7 +147,12 @@ async function executeCode(source, mode) {
 
 		if (mode === 'typescript') {
 			const ts = require('typescript');
-			const transpiled = ts.transpileModule(code, {
+			// Scratchpad code commonly uses top-level await. Wrap it before transpilation
+			// so the local CommonJS runtime can execute it without requiring ESM files.
+			const sourceForTranspile = /\bawait\b/.test(code)
+				? `(async () => {\n${code}\n})()`
+				: code;
+			const transpiled = ts.transpileModule(sourceForTranspile, {
 				compilerOptions: {
 					target: ts.ScriptTarget.ES2022,
 					module: ts.ModuleKind.CommonJS,
