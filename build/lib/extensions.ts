@@ -568,7 +568,7 @@ const esbuildMediaScripts = [
 	'mermaid-chat-features/esbuild-chat-webview.mjs',
 	'notebook-renderers/esbuild.mjs',
 	'simple-browser/esbuild-preview.mjs',
-];
+].filter(script => fs.existsSync(path.join(extensionsPath, script)));
 
 export async function webpackExtensions(taskName: string, isWatch: boolean, webpackConfigLocations: { configPath: string; outputRoot?: string }[]) {
 	const webpack = require('webpack') as typeof import('webpack');
