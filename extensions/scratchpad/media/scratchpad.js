@@ -173,7 +173,7 @@ await Promise.resolve('Aguarde de nível superior 🤩');
 
 /*
  * Pressione Ctrl + Space para snippets e autocomplete!
- * Suporte a React, React Native, Vue 3, Angular e Node.js.
+ * Foco em JavaScript, TypeScript, Node.js e React.
  */`,
 
   'typescript-types': `// Exemplo TypeScript com Interfaces e Generics
@@ -238,25 +238,6 @@ const MeuComponente = ({ titulo }) => ({
 });
 
 MeuComponente({ titulo: 'React Native & Web' });`,
-
-  'vue-reactivity': `// Simulação da Reatividade Vue 3 (ref / computed)
-function ref(init) {
-  let val = init;
-  return {
-    get value() { return val; },
-    set value(v) { val = v; }
-  };
-}
-
-function computed(fn) {
-  return { get value() { return fn(); } };
-}
-
-const preco = ref(150);
-const precoComDesconto = computed(() => preco.value * 0.9);
-
-console.log('Preço normal:', preco.value);
-console.log('Preço com desconto:', precoComDesconto.value);`,
 
   'async-fetch': `// Top-Level Await e Operações Assíncronas
 async function carregarProdutos() {
@@ -659,7 +640,10 @@ function applySuggestion(item) {
   const val = codeEditor.value;
 
   // Clean snippet placeholders $1, ${1:default}
-  let insertText = item.insert\n    .replace(/\\$\\{\\d+:([^}]+)\\}/g, '$1')\n    .replace(/\\$\\{\\d+\\}/g, '')\n    .replace(/\\$\\d+/g, '');
+  let insertText = item.insert
+    .replace(/\$\{\d+:([^}]+)\}/g, '$1')
+    .replace(/\$\{\d+\}/g, '')
+    .replace(/\$\d+/g, '');
 
   codeEditor.value = val.substring(0, start) + insertText + val.substring(end);
   const newPos = start + insertText.length;
