@@ -237,7 +237,7 @@ const MeuComponente = ({ titulo }) => ({
   filhos: [titulo, contador]
 });
 
-MeuComponente({ titulo: 'React Native & Web' });`,
+MeuComponente({ titulo: 'React & Web' });`,
 
   'async-fetch': `// Top-Level Await e Operações Assíncronas
 async function carregarProdutos() {
@@ -261,7 +261,7 @@ let state = {
       id: 'tab-1',
       title: 'Bem-vindo ao JS Studio',
       code: TEMPLATES['runjs-welcome'],
-      mode: 'typescript'
+      mode: 'javascript'
     }
   ],
   activeTabId: 'tab-1',
@@ -417,7 +417,7 @@ function createNewTab(title = null, initialCode = '') {
     id: newId,
     title: title || `Aba ${count}`,
     code: initialCode || '// Nova aba de código\n\n',
-    mode: envMode.value || 'typescript'
+    mode: envMode.value || 'javascript'
   };
   state.tabs.push(newTab);
   state.activeTabId = newId;
@@ -444,7 +444,7 @@ function loadCurrentTab() {
   const active = getActiveTab();
   if (!active) return;
   codeEditor.value = active.code || '';
-  envMode.value = active.mode || 'typescript';
+  envMode.value = active.mode || 'javascript';
   updateLineNumbers();
   updateStatusBar();
 }
