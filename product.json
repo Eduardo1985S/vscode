@@ -30,7 +30,7 @@
 	"darwinProfilePayloadUUID": "BBAA30A5-95C4-4F8E-98BF-6AACD05A41C1",
 	"linuxIconName": "js-studio",
 	"licenseFileName": "LICENSE.txt",
-	"reportIssueUrl": "https://github.com/Eduardo1985S/vscode/issues/new",
+	"reportIssueUrl": "https://github.com/Eduardo1985S/vscode",
 	"nodejsRepository": "https://nodejs.org",
 	"urlProtocol": "js-studio",
 	"webviewContentExternalBaseUrlTemplate": "https://{{uuid}}.vscode-cdn.net/insider/ef65ac1ba57f57f2a3961bfe94aa20481caca4c6/out/vs/workbench/contrib/webview/browser/pre/",
