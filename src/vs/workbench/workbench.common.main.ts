@@ -204,12 +204,8 @@ import './contrib/notebook/browser/notebook.contribution.js';
 // Speech
 import './contrib/speech/browser/speech.contribution.js';
 
-// Chat
-import './contrib/chat/browser/chat.contribution.js';
-import './contrib/inlineChat/browser/inlineChat.contribution.js';
-import './contrib/mcp/browser/mcp.contribution.js';
-import './contrib/chat/browser/chatSessions.contribution.js';
-import './contrib/chat/browser/chatContext.contribution.js';
+// JS Studio intentionally omits AI/chat/MCP workbench contributions.
+// IntelliSense, language services, snippets and debugging remain fully available.
 
 // Interactive
 import './contrib/interactive/browser/interactive.contribution.js';
