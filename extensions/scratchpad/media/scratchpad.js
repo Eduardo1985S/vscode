@@ -7,7 +7,7 @@ const vscode = !isStandalone ? acquireVsCodeApi() : {
         window.postMessage({
           type: 'init',
           tabs: null,
-          packages: ['react', 'lodash', 'axios', 'express', 'vue', '@angular/core', 'react-native'],
+          packages: ['react', 'lodash', 'axios', 'express'],
           nodeVersion: 'v24.15.0'
         }, '*');
       }, 10);
@@ -104,18 +104,11 @@ const AUTOCOMPLETE_ITEMS = [
   { label: 'clg', insert: "console.log($1);", type: 'snippet', desc: "console.log()" },
   { label: 'cerror', insert: "console.error($1);", type: 'snippet', desc: "console.error()" },
   { label: 'cwarn', insert: "console.warn($1);", type: 'snippet', desc: "console.warn()" },
-  { label: 'ush', insert: "const [${1:state}, set${1/(.*)/${1:/capitalize}/}] = useState(${2:initial});", type: 'snippet', desc: "React useState" },
+  { label: 'ush', insert: "const [${1:value}, ${2:setValue}] = useState(${3:initial});", type: 'snippet', desc: "React useState" },
   { label: 'ueh', insert: "useEffect(() => {\n  $1\n}, [${2:deps}]);", type: 'snippet', desc: "React useEffect" },
   { label: 'um', insert: "const ${1:memoValue} = useMemo(() => $2, [${3:deps}]);", type: 'snippet', desc: "React useMemo" },
   { label: 'ucb', insert: "const ${1:cb} = useCallback(() => {\n  $2\n}, [${3:deps}]);", type: 'snippet', desc: "React useCallback" },
   { label: 'rfc', insert: "export const ${1:MyComponent} = () => {\n  return (\n    <div>\n      $0\n    </div>\n  );\n};", type: 'snippet', desc: "React Component" },
-  { label: 'rnfc', insert: "export const ${1:MyScreen} = () => {\n  return (\n    <View style={styles.container}>\n      <Text>$0</Text>\n    </View>\n  );\n};", type: 'snippet', desc: "React Native Screen" },
-  { label: 'rnstyle', insert: "const styles = StyleSheet.create({\n  container: {\n    flex: 1,\n    justifyContent: 'center',\n    alignItems: 'center',\n  },\n});", type: 'snippet', desc: "React Native StyleSheet" },
-  { label: 'vbase', insert: "<script setup lang=\"ts\">\nimport { ref } from 'vue';\nconst count = ref(0);\n</script>\n\n<template>\n  <div>\n    <h1>Vue 3 SFC</h1>\n    $0\n  </div>\n</template>", type: 'snippet', desc: "Vue 3 SFC Setup" },
-  { label: 'vref', insert: "const ${1:count} = ref(${2:0});", type: 'snippet', desc: "Vue 3 ref()" },
-  { label: 'vcomputed', insert: "const ${1:double} = computed(() => ${2:count}.value * 2);", type: 'snippet', desc: "Vue 3 computed()" },
-  { label: 'ng-component', insert: "@Component({\n  selector: 'app-${1:example}',\n  standalone: true,\n  template: `<div>{{ title() }}</div>`\n})\nexport class ${2:Example}Component {\n  title = signal('${2:Example}');\n}", type: 'snippet', desc: "Angular Component" },
-  { label: 'ng-signal', insert: "const ${1:count} = signal(${2:0});", type: 'snippet', desc: "Angular Signal" },
   { label: 'fetch', insert: "const res = await fetch('${1:https://api.exemplo.com}');\nconst data = await res.json();", type: 'snippet', desc: "Fetch API Async" },
   { label: 'promise', insert: "new Promise((resolve, reject) => {\n  $1\n});", type: 'snippet', desc: "New Promise" },
   { label: 'afn', insert: "async function ${1:name}(${2:params}) {\n  $0\n}", type: 'snippet', desc: "Async Function" },
@@ -160,7 +153,7 @@ const AUTOCOMPLETE_ITEMS = [
 // ==========================================================================
 const TEMPLATES = {
   'runjs-welcome': `/*
- * Bem-vindo ao RunJS ⚡ (JS Studio)
+ * Bem-vindo ao JS Studio ⚡
  * Tema Dracula • Suporte a TypeScript & Node.js
  */
 
@@ -285,7 +278,7 @@ let state = {
   tabs: [
     {
       id: 'tab-1',
-      title: 'Bem-vindo ao RunJS',
+      title: 'Bem-vindo ao JS Studio',
       code: TEMPLATES['runjs-welcome'],
       mode: 'typescript'
     }
@@ -509,7 +502,7 @@ function queueAutoRun() {
 }
 
 // ==========================================================================
-// Results Rendering (RunJS Dual-Pane Aligned Output)
+// Results Rendering (JS Studio Dual-Pane Aligned Output)
 // ==========================================================================
 function renderResults(outputs, logs, timeMs, error) {
   execTimeBadge.textContent = `⚡ ${timeMs}ms`;
@@ -666,7 +659,7 @@ function applySuggestion(item) {
   const val = codeEditor.value;
 
   // Clean snippet placeholders $1, ${1:default}
-  let insertText = item.insert.replace(/\$\{\d+:([^}]+)\}/g, '$1').replace(/\$\d+/g, '');
+  let insertText = item.insert\n    .replace(/\\$\\{\\d+:([^}]+)\\}/g, '$1')\n    .replace(/\\$\\{\\d+\\}/g, '')\n    .replace(/\\$\\d+/g, '');
 
   codeEditor.value = val.substring(0, start) + insertText + val.substring(end);
   const newPos = start + insertText.length;
