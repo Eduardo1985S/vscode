@@ -17,23 +17,26 @@ const vscode = !isStandalone ? acquireVsCodeApi() : {
         const logs = [];
         const lines = msg.code.split('\n');
         
+        let cumulative = '';
         for (let i = 0; i < lines.length; i++) {
           const lNum = i + 1;
-          const tr = lines[i].trim();
-          if (!tr || tr.startsWith('//') || tr.startsWith('/*') || tr.startsWith('*') || tr.startsWith('const ') || tr.startsWith('let ') || tr.startsWith('var ') || tr.startsWith('function ') || tr.endsWith('{') || tr === '}') continue;
+          let tr = lines[i].trim();
           
-          // Fix for console.log/info/warn/error showing undefined!
-          const consoleMatch = tr.match(/^console\.(log|info|warn|error|table)\s*\(([\s\S]*)\);?$/);
+          if (!tr || tr.startsWith('//') || tr.startsWith('/*') || tr.startsWith('*') || tr.startsWith('interface ') || tr === '}') {
+            cumulative += lines[i] + '\n';
+            continue;
+          }
+
+          // Strip simple TS type annotations in variable declarations (e.g. const x: string = 'y')
+          let cleanLine = tr.replace(/:\s*[A-Z][\w$<>[\]|&,\s]*(?=\s*=)/g, '');
+          
+          // Console logging
+          const consoleMatch = cleanLine.match(/^console\.(log|info|warn|error|table)\s*\(([\s\S]*)\);?$/);
           if (consoleMatch) {
             const fn = consoleMatch[1];
             const inside = consoleMatch[2];
             try {
-              let evalVal;
-              if (!inside.trim()) {
-                evalVal = [''];
-              } else {
-                evalVal = eval(`[${inside}]`);
-              }
+              let evalVal = (0, eval)(`(function(){\n${cumulative}\nreturn [${inside}];\n})()`);
               const displayStr = evalVal.map(v => {
                 if (typeof v === 'string') return `'${v}'`;
                 if (typeof v === 'object') return JSON.stringify(v);
@@ -46,39 +49,55 @@ const vscode = !isStandalone ? acquireVsCodeApi() : {
                 type: 'string'
               });
               logs.push({ level: fn, text: displayStr });
+              cumulative += cleanLine + '\n';
               continue;
             } catch (e) {
               // fallback
             }
           }
 
-          try {
-            let expr = tr.replace(/;$/, '');
-            if (expr.startsWith('await ')) expr = expr.replace(/^await /, '');
-            const val = eval(expr);
-            let displayVal;
-            let valType = typeof val;
+          let expr = cleanLine.replace(/;$/, '');
+          if (expr.startsWith('await ')) expr = expr.replace(/^await /, '');
 
-            if (val === undefined) displayVal = 'undefined';
-            else if (val === null) displayVal = 'null';
-            else if (Array.isArray(val)) {
-              displayVal = JSON.stringify(val);
-              valType = 'array';
-            } else if (typeof val === 'object') {
-              displayVal = JSON.stringify(val);
-              valType = 'object';
-            } else if (typeof val === 'string') {
-              displayVal = `'${val}'`;
+          try {
+            let val;
+            if (expr.startsWith('const ') || expr.startsWith('let ') || expr.startsWith('var ')) {
+              cumulative += expr + ';\n';
+              const eqIdx = expr.indexOf('=');
+              if (eqIdx !== -1) {
+                const rhs = expr.substring(eqIdx + 1).trim();
+                val = (0, eval)(`(function(){\n${cumulative}\nreturn (${rhs});\n})()`);
+              }
             } else {
-              displayVal = String(val);
+              val = (0, eval)(`(function(){\n${cumulative}\nreturn (${expr});\n})()`);
+              cumulative += `${expr};\n`;
             }
 
-            outputs.push({
-              line: lNum,
-              display: displayVal,
-              type: valType
-            });
-          } catch (e) {}
+            if (val !== undefined) {
+              let displayVal;
+              let valType = typeof val;
+              if (val === null) displayVal = 'null';
+              else if (Array.isArray(val)) {
+                displayVal = JSON.stringify(val);
+                valType = 'array';
+              } else if (typeof val === 'object') {
+                displayVal = JSON.stringify(val);
+                valType = 'object';
+              } else if (typeof val === 'string') {
+                displayVal = `'${val}'`;
+              } else {
+                displayVal = String(val);
+              }
+
+              outputs.push({
+                line: lNum,
+                display: displayVal,
+                type: valType
+              });
+            }
+          } catch (e) {
+            cumulative += lines[i] + '\n';
+          }
         }
 
         window.postMessage({
