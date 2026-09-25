@@ -14,6 +14,8 @@ jobs:
     timeout-minutes: 90
     env:
       NODE_OPTIONS: "--max-old-space-size=8192"
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
     steps:
       - name: Checkout repository
@@ -38,6 +40,9 @@ jobs:
         run: |
           npm ci --prefer-offline
           npm install -D innosetup
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Download Built-in Extensions
         run: npm run download-builtin-extensions
