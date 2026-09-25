@@ -10,6 +10,8 @@ jobs:
   build-windows:
     runs-on: windows-2022
     timeout-minutes: 90
+    env:
+      NODE_OPTIONS: "--max-old-space-size=8192"
 
     steps:
       - name: Checkout repository
@@ -26,10 +28,17 @@ jobs:
           python-version: '3.11'
 
       - name: Install Inno Setup
-        run: choco install innosetup -y
+        run: |
+          choco install innosetup -y
+          echo "C:\Program Files (x86)\Inno Setup 6" >> $env:GITHUB_PATH
 
       - name: Install npm dependencies
-        run: npm ci --prefer-offline
+        run: |
+          npm ci --prefer-offline
+          npm install -D innosetup
+
+      - name: Download Built-in Extensions
+        run: npm run download-builtin-extensions
 
       - name: Compile sources
         run: npm run compile
@@ -38,7 +47,11 @@ jobs:
         run: npm run gulp vscode-win32-x64
 
       - name: Build Inno Setup User Installer (.exe)
-        run: npm run gulp vscode-win32-x64-user-setup
+        run: |
+          npm run gulp vscode-win32-x64-user-setup
+          if (Test-Path ".build/win32-x64/user-setup/VSCodeSetup.exe") {
+            Copy-Item ".build/win32-x64/user-setup/VSCodeSetup.exe" ".build/win32-x64/user-setup/JS-Studio-UserSetup-x64.exe"
+          }
 
       - name: Upload Installer Artifact
         uses: actions/upload-artifact@v4

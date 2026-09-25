@@ -565,10 +565,9 @@ const esbuildMediaScripts = [
 	'markdown-language-features/esbuild-notebook.mjs',
 	'markdown-language-features/esbuild-preview.mjs',
 	'markdown-math/esbuild.mjs',
-	'mermaid-chat-features/esbuild-chat-webview.mjs',
 	'notebook-renderers/esbuild.mjs',
 	'simple-browser/esbuild-preview.mjs',
-];
+].filter(s => fs.existsSync(path.join(extensionsPath, s)));
 
 export async function webpackExtensions(taskName: string, isWatch: boolean, webpackConfigLocations: { configPath: string; outputRoot?: string }[]) {
 	const webpack = require('webpack') as typeof import('webpack');

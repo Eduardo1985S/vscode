@@ -22,8 +22,33 @@ const repoPath = path.dirname(import.meta.dirname);
 const commit = getVersion(repoPath);
 const buildPath = (arch: string) => path.join(path.dirname(repoPath), `VSCode-win32-${arch}`);
 const setupDir = (arch: string, target: string) => path.join(repoPath, '.build', `win32-${arch}`, `${target}-setup`);
-const innoSetupPath = path.join(path.dirname(path.dirname(require.resolve('innosetup'))), 'bin', 'ISCC.exe');
 const signWin32Path = path.join(repoPath, 'build', 'azure-pipelines', 'common', 'sign-win32.ts');
+
+function getInnoSetupPath(): string {
+	if (process.env['INNO_SETUP_PATH'] && fs.existsSync(process.env['INNO_SETUP_PATH'])) {
+		return process.env['INNO_SETUP_PATH'];
+	}
+	try {
+		const pkg = require.resolve('innosetup');
+		const resolved = path.join(path.dirname(path.dirname(pkg)), 'bin', 'ISCC.exe');
+		if (fs.existsSync(resolved)) {
+			return resolved;
+		}
+	} catch {
+		// ignore
+	}
+	const standardPaths = [
+		'C:\\Program Files (x86)\\Inno Setup 6\\ISCC.exe',
+		'C:\\Program Files\\Inno Setup 6\\ISCC.exe',
+		'C:\\ProgramData\\chocolatey\\bin\\ISCC.exe',
+	];
+	for (const candidate of standardPaths) {
+		if (fs.existsSync(candidate)) {
+			return candidate;
+		}
+	}
+	return 'ISCC.exe';
+}
 
 function packageInnoSetup(iss: string, options: { definitions?: Record<string, unknown> }, cb: (err?: Error | null) => void) {
 	const definitions = options.definitions || {};
@@ -47,6 +72,7 @@ function packageInnoSetup(iss: string, options: { definitions?: Record<string, u
 		`/sesrp=node ${signWin32Path} $f`
 	];
 
+	const innoSetupPath = getInnoSetupPath();
 	cp.spawn(innoSetupPath, args, { stdio: ['ignore', 'inherit', 'inherit'] })
 		.on('error', cb)
 		.on('exit', code => {

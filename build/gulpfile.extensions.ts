@@ -21,6 +21,7 @@ import glob from 'glob';
 import plumber from 'gulp-plumber';
 import * as ext from './lib/extensions.ts';
 import * as tsb from './lib/tsb/index.ts';
+import * as fs from 'fs';
 import sourcemaps from 'gulp-sourcemaps';
 
 const root = path.dirname(import.meta.dirname);
@@ -55,12 +56,10 @@ const compilations = [
 	'extensions/markdown-math/tsconfig.json',
 	'extensions/media-preview/tsconfig.json',
 	'extensions/merge-conflict/tsconfig.json',
-	'extensions/mermaid-chat-features/tsconfig.json',
 	'extensions/terminal-suggest/tsconfig.json',
 	'extensions/microsoft-authentication/tsconfig.json',
 	'extensions/notebook-renderers/tsconfig.json',
 	'extensions/npm/tsconfig.json',
-	'extensions/php-language-features/tsconfig.json',
 	'extensions/references-view/tsconfig.json',
 	'extensions/search-result/tsconfig.json',
 	'extensions/simple-browser/tsconfig.json',
@@ -74,7 +73,7 @@ const compilations = [
 
 	'.vscode/extensions/vscode-selfhost-test-provider/tsconfig.json',
 	'.vscode/extensions/vscode-selfhost-import-aid/tsconfig.json',
-];
+].filter(f => fs.existsSync(path.join(root, f)));
 
 const getBaseUrl = (out: string) => `https://main.vscode-cdn.net/sourcemaps/${commit}/${out}`;
 

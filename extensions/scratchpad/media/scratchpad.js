@@ -160,21 +160,21 @@ const AUTOCOMPLETE_ITEMS = [
 // ==========================================================================
 const TEMPLATES = {
   'runjs-welcome': `/*
- * Bem-vindo ao RunJS ⚡ (JS Studio)
+ * Bem-vindo ao RunJS (JS Studio)
  * Tema Dracula • Suporte a TypeScript & Node.js
  */
 
-const helloWorld = () => 'Olá, Mundo! 🌍';
+const helloWorld = () => 'Olá, Mundo!';
 
 helloWorld();
 
-// Saídas imediatas no painel direito 👉
+// Saídas imediatas no painel direito
 
 Math.pow(5, 5);
 
-console.log('Testando console.log sem undefined! 🚀');
+console.log('Testando console.log em tempo real');
 
-await Promise.resolve('Aguarde de nível superior 🤩');
+await Promise.resolve('Aguarde de nível superior');
 
 [1, 2, 3, 4].map(num => num * 2);
 
@@ -312,6 +312,7 @@ const lineNumbers = document.getElementById('lineNumbers');
 const resultsContainer = document.getElementById('resultsContainer');
 const resultsScroll = document.getElementById('resultsScroll');
 const execTimeBadge = document.getElementById('execTimeBadge');
+const execTimeText = document.getElementById('execTimeText') || execTimeBadge;
 const btnRun = document.getElementById('btnRun');
 const toggleAutoRun = document.getElementById('toggleAutoRun');
 const envMode = document.getElementById('envMode');
@@ -399,7 +400,11 @@ function renderTabs() {
     tabEl.className = `tab-item ${tab.id === state.activeTabId ? 'active' : ''}`;
     tabEl.innerHTML = `
       <span class="tab-title">${escapeHtml(tab.title)}</span>
-      ${state.tabs.length > 1 ? '<span class="tab-close" title="Fechar aba">×</span>' : ''}
+      ${state.tabs.length > 1 ? `<span class="tab-close" title="Fechar aba">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="hi-icon-xs">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12" />
+        </svg>
+      </span>` : ''}
     `;
 
     tabEl.addEventListener('click', (e) => {
@@ -512,7 +517,11 @@ function queueAutoRun() {
 // Results Rendering (RunJS Dual-Pane Aligned Output)
 // ==========================================================================
 function renderResults(outputs, logs, timeMs, error) {
-  execTimeBadge.textContent = `⚡ ${timeMs}ms`;
+  if (execTimeText) {
+    execTimeText.textContent = `${timeMs}ms`;
+  } else if (execTimeBadge) {
+    execTimeBadge.textContent = `${timeMs}ms`;
+  }
   resultsContainer.innerHTML = '';
 
   const totalLines = codeEditor.value.split('\n').length;
@@ -552,7 +561,12 @@ function renderResults(outputs, logs, timeMs, error) {
     const errorBanner = document.createElement('div');
     errorBanner.className = 'error-banner';
     errorBanner.innerHTML = `
-      <div class="error-title">❌ Erro ${error.line ? 'na Linha ' + error.line : ''}</div>
+      <div class="error-title">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.75" stroke="currentColor" class="hi-icon">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m9-.75a9 9 0 1 1-18 0 9 9 0 0 1 18 0zm-9 3.75h.008v.008H12v-.008z" />
+        </svg>
+        <span>Erro ${error.line ? 'na Linha ' + error.line : ''}</span>
+      </div>
       <div class="error-msg">${escapeHtml(error.message)}</div>
     `;
     resultsContainer.appendChild(errorBanner);
