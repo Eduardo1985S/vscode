@@ -809,6 +809,34 @@ codeEditor.addEventListener('keydown', (e) => {
     return;
   }
 
+  // Ctrl+, to Open Settings
+  if ((e.ctrlKey || e.metaKey) && e.key === ',') {
+    e.preventDefault();
+    const modal = document.getElementById('settingsModal');
+    if (modal) modal.classList.toggle('show');
+    return;
+  }
+
+  // Ctrl+I to Open NPM Packages
+  if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'i') {
+    e.preventDefault();
+    const modal = document.getElementById('packagesModal');
+    if (modal) {
+      vscode.postMessage({ type: 'getPackages' });
+      renderPackagesList();
+      modal.classList.toggle('show');
+    }
+    return;
+  }
+
+  // Escape to close modals
+  if (e.key === 'Escape') {
+    const sModal = document.getElementById('settingsModal');
+    const pModal = document.getElementById('packagesModal');
+    if (sModal) sModal.classList.remove('show');
+    if (pModal) pModal.classList.remove('show');
+  }
+
   const start = codeEditor.selectionStart;
   const end = codeEditor.selectionEnd;
   const val = codeEditor.value;
@@ -981,6 +1009,52 @@ function renderPackagesList() {
     });
 
     packageList.appendChild(li);
+  });
+}
+
+// Settings Modal
+const btnSettings = document.getElementById('btnSettings');
+const settingsModal = document.getElementById('settingsModal');
+const closeSettingsModal = document.getElementById('closeSettingsModal');
+
+if (btnSettings && settingsModal) {
+  btnSettings.addEventListener('click', () => {
+    settingsModal.classList.add('show');
+  });
+}
+
+if (closeSettingsModal && settingsModal) {
+  closeSettingsModal.addEventListener('click', () => {
+    settingsModal.classList.remove('show');
+  });
+}
+
+if (settingsModal) {
+  settingsModal.addEventListener('click', (e) => {
+    if (e.target === settingsModal) settingsModal.classList.remove('show');
+  });
+
+  // Settings Tab Navigation
+  const navBtns = settingsModal.querySelectorAll('.settings-nav-btn');
+  const panes = settingsModal.querySelectorAll('.settings-pane');
+  navBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      navBtns.forEach(b => b.classList.remove('active'));
+      panes.forEach(p => p.classList.remove('active'));
+      btn.classList.add('active');
+      const targetId = btn.getAttribute('data-tab');
+      const targetPane = document.getElementById(targetId);
+      if (targetPane) targetPane.classList.add('active');
+    });
+  });
+}
+
+// Font size setting
+const settingFontSize = document.getElementById('settingFontSize');
+if (settingFontSize) {
+  settingFontSize.addEventListener('change', () => {
+    const sz = settingFontSize.value;
+    document.documentElement.style.setProperty('--font-size', sz);
   });
 }
 

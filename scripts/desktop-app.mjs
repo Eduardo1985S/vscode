@@ -17,10 +17,16 @@ const server = http.createServer((req, res) => {
   if (fs.existsSync(filePath)) {
     const ext = path.extname(filePath);
     const mime = ext === '.html' ? 'text/html' : ext === '.css' ? 'text/css' : ext === '.js' ? 'text/javascript' : ext === '.png' ? 'image/png' : 'text/plain';
-    res.writeHead(200, { 'Content-Type': mime });
+    res.writeHead(200, {
+      'Content-Type': mime,
+      'Cache-Control': 'no-store, no-cache, must-revalidate, max-age=0',
+      'Pragma': 'no-cache',
+      'Expires': '0'
+    });
     if (ext === '.html') {
       let content = fs.readFileSync(filePath, 'utf8');
-      content = content.replace('{{CSS_URI}}', './scratchpad.css').replace('{{JS_URI}}', './scratchpad.js');
+      const ts = Date.now();
+      content = content.replace('{{CSS_URI}}', `./scratchpad.css?v=${ts}`).replace('{{JS_URI}}', `./scratchpad.js?v=${ts}`);
       res.end(content);
     } else {
       fs.createReadStream(filePath).pipe(res);

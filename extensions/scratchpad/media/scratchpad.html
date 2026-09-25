@@ -7,59 +7,31 @@
   <link rel="stylesheet" href="{{CSS_URI}}">
 </head>
 <body class="theme-dracula">
-  <div class="app-container">
-    <!-- Top Header & Tabs Bar -->
-    <header class="top-header">
-      <div class="branding">
-        <img src="./logo.png" class="app-logo-img" alt="JS Studio">
-        <span class="logo-text">JS Studio <span class="badge-free">OSS</span></span>
-      </div>
-
-      <!-- Tabs Bar -->
-      <div class="tabs-container" id="tabsContainer"></div>
-      <button class="btn-new-tab" id="btnNewTab" title="Nova Aba (Ctrl+T)">
-        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.2" stroke="currentColor" class="hi-icon-sm">
-          <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
-        </svg>
-      </button>
-
-      <div class="header-actions">
-        <!-- Environment Selector -->
-        <div class="env-selector">
-          <label for="envMode">Modo:</label>
-          <select id="envMode" class="select-env">
-            <option value="typescript">TypeScript</option>
-            <option value="javascript">JavaScript / Node</option>
-          </select>
+  <div class="app-layout">
+    <!-- Left Thin Vertical Activity Bar (RunJS Style) -->
+    <aside class="activity-bar">
+      <div class="activity-top">
+        <div class="app-logo-btn" title="JS Studio (RunJS OSS)">
+          <img src="./logo.png" class="app-logo-img" alt="JS Studio">
         </div>
-
-        <!-- Auto-Run Toggle -->
-        <label class="toggle-container" title="Executar automaticamente ao digitar">
-          <input type="checkbox" id="toggleAutoRun" checked>
-          <span class="slider"></span>
-          <span class="toggle-label">Auto-Run</span>
-        </label>
-
-        <!-- Run Button -->
-        <button class="btn-action btn-run" id="btnRun" title="Executar código (Ctrl+Enter)">
+        <div class="activity-divider"></div>
+        
+        <button class="activity-btn btn-run-code" id="btnRun" title="Executar código (Ctrl+Enter)">
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="hi-icon">
             <path d="M6.3 2.841A1.5 1.5 0 0 0 4 4.11v11.78a1.5 1.5 0 0 0 2.3 1.269l9.344-5.89a1.5 1.5 0 0 0 0-2.538L6.3 2.84z" />
           </svg>
-          <span>Executar</span>
         </button>
 
-        <!-- Templates Dropdown -->
-        <div class="dropdown">
-          <button class="btn-action dropdown-btn" id="btnTemplates">
+        <div class="activity-item-wrapper">
+          <button class="activity-btn" id="btnTemplates" title="Exemplos & Templates (Ctrl+O)">
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.75" stroke="currentColor" class="hi-icon">
               <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 0 0-3.375-3.375h-1.5A1.125 1.125 0 0 1 13.5 7.125v-1.5a3.375 3.375 0 0 0-3.375-3.375H8.25m0 12.75h7.5m-7.5 3H12M10.5 2.25H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 0 0-9-9z" />
             </svg>
-            <span>Exemplos</span>
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="hi-chevron">
-              <path stroke-linecap="round" stroke-linejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5" />
-            </svg>
           </button>
-          <div class="dropdown-content" id="templatesMenu">
+          
+          <!-- Flyout Dropdown for Templates -->
+          <div class="templates-flyout" id="templatesMenu">
+            <div class="flyout-header">Exemplos & Stacks</div>
             <a href="#" data-template="runjs-welcome" class="dropdown-item">
               <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.75" stroke="currentColor" class="hi-icon-sm"><path stroke-linecap="round" stroke-linejoin="round" d="M9.813 15.904 9 18.75l-.813-2.846a4.5 4.5 0 0 0-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 0 0 3.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 0 0 3.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 0 0-3.09 3.09ZM18.259 8.715 18 9.75l-.259-1.035a3.375 3.375 0 0 0-2.455-2.456L14.25 6l1.036-.259a3.375 3.375 0 0 0 2.455-2.456L18 2.25l.259 1.035a3.375 3.375 0 0 0 2.456 2.456L21.75 6l-1.035.259a3.375 3.375 0 0 0-2.456 2.456ZM16.894 20.567 16.5 21.75l-.394-1.183a2.25 2.25 0 0 0-1.423-1.423L13.5 18.75l1.183-.394a2.25 2.25 0 0 0 1.423-1.423l.394-1.183.394 1.183a2.25 2.25 0 0 0 1.423 1.423l1.183.394-1.183.394a2.25 2.25 0 0 0-1.423 1.423Z" /></svg>
               <span>Bem-vindo ao RunJS</span>
@@ -87,101 +59,303 @@
           </div>
         </div>
 
-        <!-- NPM Packages Button -->
-        <button class="btn-action" id="btnPackages" title="Ver pacotes NPM instalados no projeto">
+        <button class="activity-btn" id="btnPackages" title="Pacotes NPM (Ctrl+I)">
           <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.75" stroke="currentColor" class="hi-icon">
             <path stroke-linecap="round" stroke-linejoin="round" d="m21 7.5-9-5.25L3 7.5m18 0-9 5.25m9-5.25v9l-9 5.25M3 7.5l9 5.25M3 7.5v9l9 5.25m0-9v9" />
           </svg>
-          <span>Pacotes NPM</span>
         </button>
 
-        <!-- Clear Button -->
-        <button class="btn-action btn-icon" id="btnClear" title="Limpar código e saídas">
+        <button class="activity-btn" id="btnClear" title="Limpar código e saídas">
           <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.75" stroke="currentColor" class="hi-icon">
             <path stroke-linecap="round" stroke-linejoin="round" d="m14.74 9-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 0 1-2.244 2.077H8.084a2.25 2.25 0 0 1-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 0 0-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 0 1 3.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 0 0-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 0 0-7.5 0" />
           </svg>
         </button>
       </div>
-    </header>
 
-    <!-- Main Workspace Split Pane -->
-    <main class="workspace-split" id="workspaceSplit">
-      <!-- Left: Editor Pane -->
-      <section class="pane pane-editor">
-        <div class="editor-wrapper" id="editorWrapper">
-          <div class="line-numbers" id="lineNumbers"></div>
-          <div class="editor-area-container">
-            <textarea id="codeEditor" spellcheck="false" placeholder="// Escreva seu código JavaScript ou TypeScript aqui... (Pressione Ctrl+Space para sugestões)"></textarea>
-            
-            <!-- Autocomplete Suggestion Widget (Ctrl+Space) -->
-            <div class="suggestion-widget" id="suggestionWidget">
-              <div class="suggestion-list" id="suggestionList"></div>
-              <div class="suggestion-footer">
-                <span>↑↓ Navegar</span>
-                <span>Enter/Tab Inserir</span>
-                <span>Esc Fechar</span>
+      <div class="activity-bottom">
+        <button class="activity-btn" id="btnSettings" title="Configurações (Ctrl+,)">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.75" stroke="currentColor" class="hi-icon">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M9.594 3.94c.09-.542.56-.94 1.11-.94h2.593c.55 0 1.02.398 1.11.94l.213 1.281c.063.374.313.686.645.87.074.04.147.083.22.127.324.196.72.257 1.075.124l1.217-.456a1.125 1.125 0 0 1 1.37.49l1.296 2.247a1.125 1.125 0 0 1-.26 1.431l-1.003.827c-.293.24-.438.613-.431.992a6.759 6.759 0 0 1 0 .255c-.007.378.138.75.43.99l1.005.828c.424.35.534.954.26 1.43l-1.298 2.247a1.125 1.125 0 0 1-1.369.491l-1.217-.456c-.355-.133-.75-.072-1.076.124a6.57 6.57 0 0 1-.22.128c-.331.183-.581.495-.644.869l-.213 1.28c-.09.543-.56.941-1.11.941h-2.594c-.55 0-1.02-.398-1.11-.94l-.213-1.281c-.062-.374-.312-.686-.644-.87a6.52 6.52 0 0 1-.22-.127c-.325-.196-.72-.257-1.076-.124l-1.217.456a1.125 1.125 0 0 1-1.369-.49l-1.297-2.247a1.125 1.125 0 0 1 .26-1.431l1.004-.827c.292-.24.437-.613.43-.992a6.932 6.932 0 0 1 0-.255c.007-.378-.138-.75-.43-.99l-1.004-.828a1.125 1.125 0 0 1-.26-1.43l1.297-2.247a1.125 1.125 0 0 1 1.37-.491l1.216.456c.356.133.751.072 1.076-.124.072-.044.146-.087.22-.128.332-.183.582-.495.644-.869l.214-1.281Z" />
+            <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
+          </svg>
+        </button>
+      </div>
+    </aside>
+
+    <!-- Main Workspace Container -->
+    <div class="workspace-wrapper">
+      <!-- Top Header (Breadcrumbs, Tabs, Controls) -->
+      <header class="top-header">
+        <div class="tabs-container" id="tabsContainer"></div>
+        <button class="btn-new-tab" id="btnNewTab" title="Nova Aba (Ctrl+T)">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.2" stroke="currentColor" class="hi-icon-sm">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
+          </svg>
+        </button>
+
+        <div class="header-actions">
+          <div class="env-selector">
+            <select id="envMode" class="select-env">
+              <option value="typescript">TypeScript</option>
+              <option value="javascript">JavaScript / Node</option>
+            </select>
+          </div>
+
+          <label class="toggle-container" title="Executar automaticamente ao digitar">
+            <input type="checkbox" id="toggleAutoRun" checked>
+            <span class="slider"></span>
+            <span class="toggle-label">Auto-Run</span>
+          </label>
+
+          <span class="time-badge" id="execTimeBadge">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="hi-icon-sm">
+              <path stroke-linecap="round" stroke-linejoin="round" d="m3.75 13.5 10.5-11.25L12 10.5h8.25L9.75 21.75 12 13.5H3.75z" />
+            </svg>
+            <span id="execTimeText">0ms</span>
+          </span>
+
+          <span class="badge-free">OSS • Ilimitado</span>
+        </div>
+      </header>
+
+      <!-- Main Dual-Pane Workspace (RunJS Clean Borderless Split) -->
+      <main class="workspace-split" id="workspaceSplit">
+        <!-- Left: Code Editor Pane -->
+        <section class="pane pane-editor">
+          <div class="editor-wrapper" id="editorWrapper">
+            <div class="line-numbers" id="lineNumbers"></div>
+            <div class="editor-area-container">
+              <textarea id="codeEditor" spellcheck="false" placeholder="// Escreva seu código JavaScript ou TypeScript aqui... (Pressione Ctrl+Space para sugestões)"></textarea>
+              
+              <!-- Autocomplete Suggestion Widget (Ctrl+Space) -->
+              <div class="suggestion-widget" id="suggestionWidget">
+                <div class="suggestion-list" id="suggestionList"></div>
+                <div class="suggestion-footer">
+                  <span>↑↓ Navegar</span>
+                  <span>Enter/Tab Inserir</span>
+                  <span>Esc Fechar</span>
+                </div>
               </div>
             </div>
           </div>
-        </div>
-      </section>
+        </section>
 
-      <!-- Draggable Splitter -->
-      <div class="split-gutter" id="splitGutter"></div>
+        <!-- Draggable Splitter -->
+        <div class="split-gutter" id="splitGutter"></div>
 
-      <!-- Right: Real-time Evaluation Results Pane -->
-      <section class="pane pane-results">
-        <div class="results-header">
-          <span class="pane-title">Resultados em Tempo Real</span>
-          <div class="results-meta">
-            <span class="theme-badge">Tema Dracula</span>
-            <span class="time-badge" id="execTimeBadge">
-              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="hi-icon-sm">
-                <path stroke-linecap="round" stroke-linejoin="round" d="m3.75 13.5 10.5-11.25L12 10.5h8.25L9.75 21.75 12 13.5H3.75z" />
-              </svg>
-              <span id="execTimeText">0ms</span>
-            </span>
+        <!-- Right: Real-time Evaluation Results Pane -->
+        <section class="pane pane-results">
+          <div class="results-scroll" id="resultsScroll">
+            <div class="results-container" id="resultsContainer"></div>
           </div>
-        </div>
-        <div class="results-scroll" id="resultsScroll">
-          <div class="results-container" id="resultsContainer"></div>
-        </div>
 
-        <!-- Bottom Console Logs Panel -->
-        <div class="console-drawer" id="consoleDrawer">
-          <div class="console-header" id="consoleToggle">
-            <span class="console-title">Console Output (<span id="consoleCount">0</span>)</span>
-            <span class="console-clear" id="consoleClear">Limpar</span>
+          <!-- Bottom Console Logs Panel -->
+          <div class="console-drawer" id="consoleDrawer">
+            <div class="console-header" id="consoleToggle">
+              <span class="console-title">Console Output (<span id="consoleCount">0</span>)</span>
+              <span class="console-clear" id="consoleClear">Limpar</span>
+            </div>
+            <div class="console-content" id="consoleContent"></div>
           </div>
-          <div class="console-content" id="consoleContent"></div>
-        </div>
-      </section>
-    </main>
+        </section>
+      </main>
 
-    <!-- Status Bar -->
-    <footer class="app-status-bar">
-      <div class="status-left">
-        <span class="status-item" id="statusNodeVersion">Node.js v24</span>
-        <span class="status-item" id="statusLineCol">Linha 1, Col 1</span>
-        <span class="status-item" id="statusCharCount">0 caracteres</span>
-        <span class="status-item hint-ctrl-space">
-          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.75" stroke="currentColor" class="hi-icon-sm">
-            <path stroke-linecap="round" stroke-linejoin="round" d="m11.25 11.25.041-.02a.75.75 0 0 1 1.063.852l-.708 2.836a.75.75 0 0 0 1.063.853l.041-.021M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0zm-9-3.75h.008v.008H12V8.25z" />
+      <!-- Status Bar -->
+      <footer class="app-status-bar">
+        <div class="status-left">
+          <span class="status-item" id="statusNodeVersion">Node.js v24</span>
+          <span class="status-item" id="statusLineCol">Linha 1, Col 1</span>
+          <span class="status-item" id="statusCharCount">0 caracteres</span>
+          <span class="status-item hint-ctrl-space">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.75" stroke="currentColor" class="hi-icon-sm">
+              <path stroke-linecap="round" stroke-linejoin="round" d="m11.25 11.25.041-.02a.75.75 0 0 1 1.063.852l-.708 2.836a.75.75 0 0 0 1.063.853l.041-.021M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0zm-9-3.75h.008v.008H12V8.25z" />
+            </svg>
+            Pressione <strong>Ctrl + Space</strong> para snippets
+          </span>
+        </div>
+        <div class="status-right">
+          <span class="status-tag tag-dracula">Dracula Theme</span>
+          <span class="status-tag tag-success">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="hi-icon-sm">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75 11.25 15 15 9.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0z" />
+            </svg>
+            100% Gratuito & Ilimitado
+          </span>
+          <span class="status-item">Sem IA • Sem Licenças • Sem Bloat</span>
+        </div>
+      </footer>
+    </div>
+  </div>
+
+  <!-- Settings / Configurações Modal (Exact RunJS Style) -->
+  <div class="modal-backdrop" id="settingsModal">
+    <div class="modal-dialog modal-settings">
+      <div class="modal-header">
+        <div class="modal-header-title">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.75" stroke="currentColor" class="hi-icon">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M9.594 3.94c.09-.542.56-.94 1.11-.94h2.593c.55 0 1.02.398 1.11.94l.213 1.281c.063.374.313.686.645.87.074.04.147.083.22.127.324.196.72.257 1.075.124l1.217-.456a1.125 1.125 0 0 1 1.37.49l1.296 2.247a1.125 1.125 0 0 1-.26 1.431l-1.003.827c-.293.24-.438.613-.431.992a6.759 6.759 0 0 1 0 .255c-.007.378.138.75.43.99l1.005.828c.424.35.534.954.26 1.43l-1.298 2.247a1.125 1.125 0 0 1-1.369.491l-1.217-.456c-.355-.133-.75-.072-1.076.124a6.57 6.57 0 0 1-.22.128c-.331.183-.581.495-.644.869l-.213 1.28c-.09.543-.56.941-1.11.941h-2.594c-.55 0-1.02-.398-1.11-.94l-.213-1.281c-.062-.374-.312-.686-.644-.87a6.52 6.52 0 0 1-.22-.127c-.325-.196-.72-.257-1.076-.124l-1.217.456a1.125 1.125 0 0 1-1.369-.49l-1.297-2.247a1.125 1.125 0 0 1 .26-1.431l1.004-.827c.292-.24.437-.613.43-.992a6.932 6.932 0 0 1 0-.255c.007-.378-.138-.75-.43-.99l-1.004-.828a1.125 1.125 0 0 1-.26-1.43l1.297-2.247a1.125 1.125 0 0 1 1.37-.491l1.216.456c.356.133.751.072 1.076-.124.072-.044.146-.087.22-.128.332-.183.582-.495.644-.869l.214-1.281Z" />
+            <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
           </svg>
-          Pressione <strong>Ctrl + Space</strong> para snippets e sugestões
-        </span>
-      </div>
-      <div class="status-right">
-        <span class="status-tag tag-dracula">Dracula Theme</span>
-        <span class="status-tag tag-success">
+          <h3>Configurações</h3>
+        </div>
+        <button class="modal-close" id="closeSettingsModal" title="Fechar">
           <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="hi-icon-sm">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75 11.25 15 15 9.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0z" />
+            <path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12" />
           </svg>
-          100% Gratuito & Ilimitado
-        </span>
-        <span class="status-item">Sem IA • Sem Licenças • Sem Bloat</span>
+        </button>
       </div>
-    </footer>
+
+      <!-- Settings Nav Tabs (RunJS Style) -->
+      <div class="settings-nav">
+        <button class="settings-nav-btn active" data-tab="tab-geral">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.75" stroke="currentColor" class="hi-icon-sm"><path stroke-linecap="round" stroke-linejoin="round" d="M9.594 3.94c.09-.542.56-.94 1.11-.94h2.593c.55 0 1.02.398 1.11.94l.213 1.281c.063.374.313.686.645.87.074.04.147.083.22.127.324.196.72.257 1.075.124l1.217-.456a1.125 1.125 0 0 1 1.37.49l1.296 2.247a1.125 1.125 0 0 1-.26 1.431l-1.003.827c-.293.24-.438.613-.431.992a6.759 6.759 0 0 1 0 .255c-.007.378.138.75.43.99l1.005.828c.424.35.534.954.26 1.43l-1.298 2.247a1.125 1.125 0 0 1-1.369.491l-1.217-.456c-.355-.133-.75-.072-1.076.124a6.57 6.57 0 0 1-.22.128c-.331.183-.581.495-.644.869l-.213 1.28c-.09.543-.56.941-1.11.941h-2.594c-.55 0-1.02-.398-1.11-.94l-.213-1.281c-.062-.374-.312-.686-.644-.87a6.52 6.52 0 0 1-.22-.127c-.325-.196-.72-.257-1.076-.124l-1.217.456a1.125 1.125 0 0 1-1.369-.49l-1.297-2.247a1.125 1.125 0 0 1 .26-1.431l1.004-.827c.292-.24.437-.613.43-.992a6.932 6.932 0 0 1 0-.255c.007-.378-.138-.75-.43-.99l-1.004-.828a1.125 1.125 0 0 1-.26-1.43l1.297-2.247a1.125 1.125 0 0 1 1.37-.491l1.216.456c.356.133.751.072 1.076-.124.072-.044.146-.087.22-.128.332-.183.582-.495.644-.869l.214-1.281Z" /><path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" /></svg>
+          Geral
+        </button>
+        <button class="settings-nav-btn" data-tab="tab-editor">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.75" stroke="currentColor" class="hi-icon-sm"><path stroke-linecap="round" stroke-linejoin="round" d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L6.832 19.82a4.5 4.5 0 0 1-1.897 1.13l-2.685.8.8-2.685a4.5 4.5 0 0 1 1.13-1.897L16.863 4.487Zm0 0L19.5 7.125" /></svg>
+          Editor
+        </button>
+        <button class="settings-nav-btn" data-tab="tab-aparencia">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.75" stroke="currentColor" class="hi-icon-sm"><path stroke-linecap="round" stroke-linejoin="round" d="M4.098 19.902a3.75 3.75 0 0 0 5.304 0l6.401-6.402M6.75 21A3.75 3.75 0 0 1 3 17.25V4.125C3 3.504 3.504 3 4.125 3h5.25c.621 0 1.125.504 1.125 1.125v4.072M6.75 21a3.75 3.75 0 0 0 3.75-3.75V8.197M6.75 21h13.125c.621 0 1.125-.504 1.125-1.125v-5.25c0-.621-.504-1.125-1.125-1.125h-4.072M10.5 8.197l2.88-2.88c.438-.439 1.15-.439 1.59 0l3.712 3.713c.44.44.44 1.152 0 1.59l-2.879 2.88M6.75 17.25h.008v.008H6.75v-.008Z" /></svg>
+          Aparência
+        </button>
+        <button class="settings-nav-btn" data-tab="tab-sobre">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.75" stroke="currentColor" class="hi-icon-sm"><path stroke-linecap="round" stroke-linejoin="round" d="m11.25 11.25.041-.02a.75.75 0 0 1 1.063.852l-.708 2.836a.75.75 0 0 0 1.063.853l.041-.021M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0zm-9-3.75h.008v.008H12V8.25z" /></svg>
+          Sobre
+        </button>
+      </div>
+
+      <!-- Settings Content Panes -->
+      <div class="modal-body settings-body">
+        <div class="settings-pane active" id="tab-geral">
+          <div class="setting-row">
+            <div class="setting-label">
+              <strong>Idioma</strong>
+              <span>Idioma principal da interface do aplicativo</span>
+            </div>
+            <div class="setting-control">
+              <select class="select-env">
+                <option value="pt-BR">Português (Brasil)</option>
+                <option value="en-US">English</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="setting-row">
+            <div class="setting-label">
+              <strong>Execução Automática</strong>
+              <span>Executar código em tempo real enquanto você digita</span>
+            </div>
+            <div class="setting-control">
+              <input type="checkbox" id="settingAutoRun" checked>
+            </div>
+          </div>
+
+          <div class="setting-row">
+            <div class="setting-label">
+              <strong>Ambiente de Execução</strong>
+              <span>Runtime padrão para avaliação do código</span>
+            </div>
+            <div class="setting-control">
+              <select class="select-env">
+                <option value="node">Node.js (v24)</option>
+                <option value="browser">Navegador e Node.js</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="setting-row">
+            <div class="setting-label">
+              <strong>Linguagem Padrão</strong>
+              <span>Modo inicial ao criar novas abas</span>
+            </div>
+            <div class="setting-control">
+              <select class="select-env" id="settingDefaultLang">
+                <option value="typescript">TypeScript</option>
+                <option value="javascript">JavaScript</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <div class="settings-pane" id="tab-editor">
+          <div class="setting-row">
+            <div class="setting-label">
+              <strong>Tamanho da Fonte</strong>
+              <span>Tamanho do texto no editor de código</span>
+            </div>
+            <div class="setting-control">
+              <select class="select-env" id="settingFontSize">
+                <option value="13px">13px</option>
+                <option value="14px" selected>14px</option>
+                <option value="15px">15px</option>
+                <option value="16px">16px</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="setting-row">
+            <div class="setting-label">
+              <strong>Números de Linha</strong>
+              <span>Exibir numeração à esquerda do editor</span>
+            </div>
+            <div class="setting-control">
+              <input type="checkbox" checked disabled>
+            </div>
+          </div>
+
+          <div class="setting-row">
+            <div class="setting-label">
+              <strong>Autocomplete & Snippets</strong>
+              <span>Sugestões automáticas via Ctrl + Space</span>
+            </div>
+            <div class="setting-control">
+              <input type="checkbox" checked disabled>
+            </div>
+          </div>
+        </div>
+
+        <div class="settings-pane" id="tab-aparencia">
+          <div class="setting-row">
+            <div class="setting-label">
+              <strong>Tema de Cores</strong>
+              <span>Tema oficial escuro padrão</span>
+            </div>
+            <div class="setting-control">
+              <select class="select-env">
+                <option value="dracula">Dracula Oficial (Padrão)</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="setting-row">
+            <div class="setting-label">
+              <strong>Estilo da Interface</strong>
+              <span>Layout limpo, minimalista sem poluição visual</span>
+            </div>
+            <div class="setting-control">
+              <span class="theme-badge">Minimalista (Heroicons)</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="settings-pane" id="tab-sobre">
+          <div class="about-card">
+            <img src="./logo.png" class="about-logo" alt="JS Studio">
+            <h3>JS Studio • Scratchpad</h3>
+            <p class="about-version">Versão 1.108.0 (RunJS OSS Edition)</p>
+            <p class="about-desc">
+              Ambiente de desenvolvimento minimalista, ágil e focado em JavaScript, TypeScript, Node.js, React, Vue 3 e Angular.
+            </p>
+            <div class="about-badges">
+              <span class="badge-free">100% Gratuito</span>
+              <span class="theme-badge">Sem IA / Telemetria</span>
+              <span class="status-tag tag-dracula">Dracula Theme</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 
   <!-- Modal for NPM Packages -->

@@ -60,17 +60,167 @@ body, html {
   user-select: none;
 }
 
-.app-container {
+.app-layout {
   display: flex;
-  flex-direction: column;
-  height: 100vh;
+  flex-direction: row;
   width: 100vw;
+  height: 100vh;
   background-color: var(--dracula-bg);
+  overflow: hidden;
 }
 
 /* ==========================================================================
-   Top Header & Tabs (Dracula Theme)
+   Left Vertical Activity Bar (RunJS Style)
    ========================================================================== */
+
+.activity-bar {
+  width: 48px;
+  height: 100%;
+  background-color: #1e1f29;
+  border-right: 1px solid var(--border-color);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 0;
+  flex-shrink: 0;
+  z-index: 50;
+}
+
+.activity-top, .activity-bottom {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+}
+
+.app-logo-btn {
+  width: 34px;
+  height: 34px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: transform 0.2s ease;
+}
+
+.app-logo-btn:hover {
+  transform: scale(1.1);
+}
+
+.app-logo-img {
+  width: 28px;
+  height: 28px;
+  object-fit: contain;
+  filter: drop-shadow(0 2px 6px rgba(241, 250, 140, 0.35));
+}
+
+.activity-divider {
+  width: 24px;
+  height: 1px;
+  background-color: var(--border-color);
+  margin: 2px 0 4px 0;
+}
+
+.activity-btn {
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: transparent;
+  border: none;
+  border-radius: 8px;
+  color: var(--dracula-comment);
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.activity-btn:hover {
+  background-color: var(--dracula-current);
+  color: var(--dracula-fg);
+}
+
+.activity-btn.btn-run-code {
+  color: var(--dracula-green);
+}
+
+.activity-btn.btn-run-code:hover {
+  background-color: rgba(80, 250, 123, 0.15);
+  color: #50fa7b;
+}
+
+.activity-item-wrapper {
+  position: relative;
+}
+
+.templates-flyout {
+  display: none;
+  position: absolute;
+  left: 44px;
+  top: 0;
+  background-color: #21222c;
+  min-width: 260px;
+  border-radius: 8px;
+  border: 1px solid var(--border-color);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.6);
+  z-index: 200;
+  overflow: hidden;
+}
+
+.templates-flyout.show {
+  display: block;
+}
+
+.flyout-header {
+  padding: 8px 12px;
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: var(--dracula-comment);
+  border-bottom: 1px solid var(--border-color);
+}
+
+.templates-flyout .dropdown-item {
+  display: flex !important;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 14px;
+  color: var(--dracula-fg) !important;
+  text-decoration: none !important;
+  font-size: 12.5px;
+  transition: all 0.15s ease;
+}
+
+.templates-flyout .dropdown-item:hover {
+  background-color: var(--dracula-current);
+  color: #ffffff;
+}
+
+.templates-flyout .dropdown-item svg {
+  color: var(--dracula-purple);
+  flex-shrink: 0;
+}
+
+.templates-flyout .dropdown-item:hover svg {
+  color: var(--dracula-cyan);
+}
+
+
+/* ==========================================================================
+   Workspace Wrapper & Top Header
+   ========================================================================== */
+
+.workspace-wrapper {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  overflow: hidden;
+  background-color: var(--dracula-bg);
+}
 
 .top-header {
   height: 42px;
@@ -83,38 +233,15 @@ body, html {
   flex-shrink: 0;
 }
 
-.branding {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  padding-right: 12px;
-  border-right: 1px solid var(--border-color);
-}
-
-.app-logo-img {
-  width: 24px;
-  height: 24px;
-  object-fit: contain;
-  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.4));
-}
-
-.logo-text {
-  font-weight: 700;
-  font-size: 14px;
-  letter-spacing: 0.5px;
-  color: var(--dracula-fg);
-}
-
 .badge-free {
   font-size: 10px;
   background: linear-gradient(135deg, var(--dracula-purple), var(--dracula-pink));
   color: #282a36;
-  padding: 2px 6px;
+  padding: 2px 8px;
   border-radius: 4px;
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.5px;
-  margin-left: 4px;
 }
 
 .tabs-container {
@@ -977,4 +1104,177 @@ body, html {
 .error-title svg {
   color: var(--dracula-red);
 }
+
+/* ==========================================================================
+   RunJS Style Settings Modal
+   ========================================================================== */
+
+.modal-settings {
+  max-width: 580px;
+  width: 90%;
+  border-radius: 10px;
+  background-color: var(--dracula-bg);
+  border: 1px solid var(--border-color);
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6);
+  overflow: hidden;
+}
+
+.settings-nav {
+  display: flex;
+  gap: 4px;
+  padding: 8px 16px 0 16px;
+  background-color: #21222c;
+  border-bottom: 1px solid var(--border-color);
+  overflow-x: auto;
+}
+
+.settings-nav-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 8px 14px;
+  background: transparent;
+  border: none;
+  border-bottom: 2px solid transparent;
+  color: var(--dracula-comment);
+  font-size: 12.5px;
+  font-weight: 500;
+  cursor: pointer;
+  border-top-left-radius: 6px;
+  border-top-right-radius: 6px;
+  transition: all 0.15s ease;
+  white-space: nowrap;
+}
+
+.settings-nav-btn:hover {
+  color: var(--dracula-fg);
+  background-color: rgba(255, 255, 255, 0.04);
+}
+
+.settings-nav-btn.active {
+  color: var(--dracula-pink);
+  border-bottom-color: var(--dracula-pink);
+  font-weight: 600;
+  background-color: rgba(255, 121, 198, 0.08);
+}
+
+.settings-nav-btn.active svg {
+  color: var(--dracula-pink);
+}
+
+.settings-body {
+  padding: 20px 24px;
+  max-height: 420px;
+  overflow-y: auto;
+}
+
+.settings-pane {
+  display: none;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.settings-pane.active {
+  display: flex;
+}
+
+.setting-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  padding-bottom: 14px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.setting-row:last-child {
+  border-bottom: none;
+  padding-bottom: 0;
+}
+
+.setting-label {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.setting-label strong {
+  font-size: 13.5px;
+  color: var(--dracula-fg);
+  font-weight: 500;
+}
+
+.setting-label span {
+  font-size: 11.5px;
+  color: var(--dracula-comment);
+}
+
+.setting-control {
+  display: flex;
+  align-items: center;
+}
+
+.setting-control input[type="checkbox"] {
+  width: 17px;
+  height: 17px;
+  accent-color: var(--dracula-pink);
+  cursor: pointer;
+}
+
+.theme-badge {
+  display: inline-block;
+  padding: 3px 8px;
+  border-radius: 4px;
+  font-size: 11.5px;
+  background-color: var(--dracula-current);
+  color: var(--dracula-fg);
+  border: 1px solid var(--border-color);
+}
+
+/* About Screen Card */
+.about-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding: 12px 10px;
+  gap: 8px;
+}
+
+.about-logo {
+  width: 64px;
+  height: 64px;
+  object-fit: contain;
+  margin-bottom: 6px;
+  filter: drop-shadow(0 4px 14px rgba(241, 250, 140, 0.4));
+}
+
+.about-card h3 {
+  font-size: 16px;
+  color: var(--dracula-fg);
+  font-weight: 600;
+}
+
+.about-version {
+  font-size: 12px;
+  color: var(--dracula-cyan);
+  font-family: var(--font-mono);
+}
+
+.about-desc {
+  font-size: 12.5px;
+  color: var(--dracula-comment);
+  max-width: 420px;
+  line-height: 1.5;
+  margin: 6px 0;
+}
+
+.about-badges {
+  display: flex;
+  gap: 8px;
+  margin-top: 6px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
 
